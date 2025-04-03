@@ -27,6 +27,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,6 +42,10 @@ android {
 }
 
 dependencies {
+//    implementation(libs.koin.android)
+//    implementation (libs.koin.android.scope)
+//    implementation (libs.koin.android.viewmodel)
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

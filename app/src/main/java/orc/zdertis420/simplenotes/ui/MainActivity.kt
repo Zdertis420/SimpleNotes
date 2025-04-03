@@ -1,37 +1,54 @@
 package orc.zdertis420.simplenotes.ui
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import orc.zdertis420.simplenotes.R
+import orc.zdertis420.simplenotes.databinding.ActivityMainBinding
+import orc.zdertis420.simplenotes.ui.state.MainState
+import orc.zdertis420.simplenotes.ui.viewmodel.MainViewModel
+//import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalTime
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var text: TextView
-    private lateinit var counter: TextView
+    private lateinit var views: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        views = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(views.root)
+        ViewCompat.setOnApplyWindowInsetsListener(views.main) { view, windowInsetsCompat ->
+            val insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
+            WindowInsetsCompat.CONSUMED
         }
 
-        text = findViewById(R.id.text_view)
-        counter = findViewById(R.id.counter)
-        var count = counter.text.toString().toInt()
+//        startKoin {
+//            androidContext(this@MainActivity)
+//
+//            modules(viewModelModule)
+//        }
 
-        text.setOnClickListener {
-            ++count
 
-            counter.text = count.toString()
+        viewModel.mainScreenLiveData.observe(this) { state ->
+            render(state)
         }
 
+        viewModel.updateTime()
+    }
+
+    private fun render(state: MainState) {
+        when (state) {
+            is MainState.StartUp -> changeGreeting(state.partOfDay)
+        }
+    }
+
+    private fun changeGreeting(partOfDay: LocalTime) {
+        views.toolbar.subtitle = partOfDay.toString()
     }
 }
