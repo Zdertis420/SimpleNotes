@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="greeting_night">Доброй ночи</string>
+    <string name="greeting_morning">Доброе утро</string>
+    <string name="greeting_day">Добрый день</string>
+    <string name="greeting_evening">Добрый вечер</string>
 </resources>

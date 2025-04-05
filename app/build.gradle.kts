@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     kotlin("plugin.serialization") version "1.9.23"
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -42,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.viewpager2)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.koin.android)
     implementation(libs.androidx.activity.ktx)

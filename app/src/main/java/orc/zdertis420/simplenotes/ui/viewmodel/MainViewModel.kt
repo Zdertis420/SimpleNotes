@@ -11,8 +11,12 @@ class MainViewModel() : ViewModel() {
     val mainScreenLiveData: LiveData<MainState> get() = _mainScreenLiveData
 
     fun updateTime() {
-        val now = LocalTime.now()
+        val now = LocalTime.now().hour
 
-        _mainScreenLiveData.postValue(MainState.StartUp(now))
+        _mainScreenLiveData.postValue(MainState.StartUp(now/6))
+    }
+
+    fun changeFragment() {
+
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import orc.zdertis420.simplenotes.databinding.FragmentMenuBinding
 
 class MenuFragment : Fragment() {
+
     private var _views: FragmentMenuBinding? = null
     private val views get() = _views
 
