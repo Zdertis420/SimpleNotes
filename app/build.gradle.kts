@@ -42,9 +42,8 @@ android {
 }
 
 dependencies {
-//    implementation(libs.koin.android)
-//    implementation (libs.koin.android.scope)
-//    implementation (libs.koin.android.viewmodel)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.koin.android)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
