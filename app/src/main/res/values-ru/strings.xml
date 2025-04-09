@@ -4,4 +4,9 @@
     <string name="greeting_morning">Доброе утро</string>
     <string name="greeting_day">Добрый день</string>
     <string name="greeting_evening">Добрый вечер</string>
+    <string name="active_tasks">Текущие</string>
+    <string name="completed_tasks">Выполненные</string>
+    <string name="all_tasks">Все</string>
+    <string name="dark_theme">Тёмная тема</string>
+
 </resources>

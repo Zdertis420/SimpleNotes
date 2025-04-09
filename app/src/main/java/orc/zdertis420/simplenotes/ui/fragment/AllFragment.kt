@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import orc.zdertis420.simplenotes.databinding.FragmentMenuBinding
+import orc.zdertis420.simplenotes.databinding.FragmentAllBinding
 
-class MenuFragment : Fragment() {
+class AllFragment : Fragment() {
 
-    private var _views: FragmentMenuBinding? = null
+    private var _views: FragmentAllBinding? = null
     private val views get() = _views
 
     override fun onCreateView(
@@ -17,8 +17,13 @@ class MenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _views = FragmentMenuBinding.inflate(inflater, container, false)
+        _views = FragmentAllBinding.inflate(inflater, container, false)
 
         return views?.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _views = null
     }
 }

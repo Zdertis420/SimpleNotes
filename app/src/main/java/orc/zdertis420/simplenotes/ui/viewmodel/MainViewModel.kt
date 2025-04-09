@@ -15,8 +15,4 @@ class MainViewModel() : ViewModel() {
 
         _mainScreenLiveData.postValue(MainState.StartUp(now/6))
     }
-
-    fun changeFragment() {
-
-    }
 }
