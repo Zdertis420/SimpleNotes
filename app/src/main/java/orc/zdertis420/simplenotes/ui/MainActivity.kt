@@ -5,11 +5,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.fragment.app.commit
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.databinding.ActivityMainBinding
-import orc.zdertis420.simplenotes.ui.adapter.PagerAdapter
-import orc.zdertis420.simplenotes.ui.state.MainState
+import orc.zdertis420.simplenotes.ui.fragment.HomeFragment
 import orc.zdertis420.simplenotes.ui.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var views: ActivityMainBinding
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
 
-    private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +28,12 @@ class MainActivity : AppCompatActivity() {
             view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
             WindowInsetsCompat.CONSUMED
         }
-    }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
+        if (savedInstanceState == null) {
+            val fragmentManager = supportFragmentManager
+            fragmentManager.commit {
+                replace(R.id.main_fragment_container, HomeFragment())
+            }
+        }
     }
 }

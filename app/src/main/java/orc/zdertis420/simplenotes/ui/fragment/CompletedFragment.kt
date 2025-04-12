@@ -21,4 +21,9 @@ class CompletedFragment : Fragment() {
 
         return views?.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _views = null
+    }
 }

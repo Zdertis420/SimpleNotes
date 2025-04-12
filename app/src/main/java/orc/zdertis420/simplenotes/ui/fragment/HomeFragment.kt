@@ -1,6 +1,7 @@
 package orc.zdertis420.simplenotes.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel by viewModel<HomeViewModel>()
 
+    private val fragmentManager = childFragmentManager
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
 
@@ -36,12 +38,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.post {
+            setupViews()
+        }
+    }
+
+    private fun setupViews() {
         viewModel.homeStateLiveData.observe(viewLifecycleOwner) { state ->
             render(state)
         }
 
+        viewModel.updateTime()
 
-        tabLayoutMediator
+        views?.viewPager?.adapter = PagerAdapter(fragmentManager, lifecycle)
+        tabLayoutMediator = TabLayoutMediator(views!!.tabLayout, views!!.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.active_tasks)
+                1 -> tab.text = getString(R.string.completed_tasks)
+                2 -> tab.text = getString(R.string.all_tasks)
+            }
+        }
     }
 
     private fun render(state: HomeState) {
