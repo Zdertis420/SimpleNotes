@@ -8,5 +8,6 @@
     <string name="completed_tasks">Выполненные</string>
     <string name="all_tasks">Все</string>
     <string name="dark_theme">Тёмная тема</string>
+    <string name="settings">Settings</string>
 
 </resources>

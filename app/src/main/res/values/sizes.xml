@@ -10,5 +10,4 @@
     <dimen name="smaller_padding">14dp</dimen>
     <dimen name="small_padding">12dp</dimen>
     <dimen name="even_smaller_padding">8dp</dimen>
-    <dimen name="player_image">312dp</dimen>
 </resources>
