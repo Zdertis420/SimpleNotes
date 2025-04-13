@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/small_padding"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -11,12 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:title="@string/settings"
+        app:navigationIcon="@drawable/arrow_back"
+        app:titleTextColor="@color/primary_darker"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_theme"
         style="@style/settings_activity_button_style"
         android:text="@string/dark_theme"
+        android:textColor="@color/primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:switchMinWidth="35dp"

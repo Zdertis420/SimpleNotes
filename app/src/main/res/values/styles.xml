@@ -7,7 +7,7 @@
         <item name="android:backgroundTint">@color/transparent</item>
         <item name="android:textColor">@color/standard_text_color</item>
         <item name="android:textSize">@dimen/standard_text_size</item>
-        <item name="drawableTint">@color/primary</item>
+        <item name="drawableTint">@color/secondary</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingVertical">21dp</item>

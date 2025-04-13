@@ -6,10 +6,10 @@
     <color name="standard_text_color">#1A1B22</color>
     <color name="unchangeable_standard_text_color">#1A1B22</color>
     <color name="background_color">@color/white</color>
-    <color name="primary">#00BCD4</color>
-    <color name="primary_brighter">#4DD0E1</color>
-    <color name="primary_darker">#0097A7</color>
-    <color name="secondary">#AB47BC</color>
-    <color name="secondary_brighter">#CE93D8</color>
-    <color name="secondary_darker">#8E24AA</color>
+    <color name="secondary">#00BCD4</color>
+    <color name="secondary_brighter">#4DD0E1</color>
+    <color name="secondary_darker">#0097A7</color>
+    <color name="primary">#AB47BC</color>
+    <color name="primary_brighter">#CE93D8</color>
+    <color name="primary_darker">#8E24AA</color>
 </resources>

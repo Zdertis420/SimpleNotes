@@ -16,7 +16,9 @@
         app:layout_constraintEnd_toStartOf="@+id/settings_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_name" />
+        app:title="@string/app_name"
+        app:titleTextColor="@color/primary"
+        app:subtitleTextColor="@color/primary_brighter"/>
 
     <ImageView
         android:id="@+id/settings_button"
@@ -34,11 +36,12 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/home_toolbar"
         android:background="@color/background_color"
-        app:tabTextColor="@color/primary"
-        app:tabIndicatorColor="@color/primary_brighter"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_toolbar"
+        app:tabIndicatorColor="@color/primary"
+        app:tabTextColor="@color/primary_darker" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
