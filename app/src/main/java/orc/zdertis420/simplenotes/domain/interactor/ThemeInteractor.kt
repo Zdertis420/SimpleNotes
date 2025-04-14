@@ -5,5 +5,9 @@ interface ThemeInteractor {
 
     fun saveTheme(theme: Boolean)
 
+    fun saveAutoTheme(theme: Boolean)
+
     fun getTheme(): Boolean
+
+    fun isThemeEditedManually(): Boolean
 }

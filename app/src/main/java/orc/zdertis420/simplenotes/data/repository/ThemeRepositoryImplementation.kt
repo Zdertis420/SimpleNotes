@@ -25,10 +25,22 @@ class ThemeRepositoryImplementation(private val context: Context) : ThemeReposit
     override fun saveTheme(theme: Boolean) {
         themePreference.edit {
             putBoolean("THEME", theme)
+            putBoolean("IS_EDITED_MANUALLY", true)
+        }
+    }
+
+    override fun saveAutoTheme(theme: Boolean) {
+        themePreference.edit {
+            putBoolean("THEME", theme)
+            putBoolean("IS_EDITED_MANUALLY", false)
         }
     }
 
     override fun getTheme(): Boolean {
         return themePreference.getBoolean("THEME", false)
+    }
+
+    override fun isThemeEditedManually(): Boolean {
+        return themePreference.getBoolean("IS_EDITED_MANUALLY", false)
     }
 }

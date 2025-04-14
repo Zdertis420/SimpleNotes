@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/small_padding"
+    android:background="@color/background_color"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -15,13 +16,26 @@
         app:titleTextColor="@color/primary_darker"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/sync_theme_checkbox"
+        style="@style/settings_activity_button_style"
+        android:layoutDirection="rtl"
+        android:text="@string/sync_theme"
+        android:textColor="@color/primary"
+        android:buttonTint="@color/primary"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_theme"
         style="@style/settings_activity_button_style"
         android:text="@string/dark_theme"
         android:textColor="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/sync_theme_checkbox"
         app:switchMinWidth="35dp"
         app:thumbTint="@color/switch_thumb_color"
         app:trackTint="@color/switch_track_color" />
