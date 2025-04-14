@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/small_padding"
+    android:background="@color/background_color"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -15,15 +17,36 @@
         app:titleTextColor="@color/primary_darker"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_theme"
-        style="@style/settings_activity_button_style"
+    <TextView
+        android:id="@+id/theme"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
         android:text="@string/dark_theme"
+        android:textSize="@dimen/standard_text_size"
+        android:gravity="center"
         android:textColor="@color/primary"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:switchMinWidth="35dp"
-        app:thumbTint="@color/switch_thumb_color"
-        app:trackTint="@color/switch_track_color" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/theme_selector"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:hint="@string/dark_theme"
+        android:textColorHint="@color/standard_text_color"
+        app:endIconMode="dropdown_menu"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/theme"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_color" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

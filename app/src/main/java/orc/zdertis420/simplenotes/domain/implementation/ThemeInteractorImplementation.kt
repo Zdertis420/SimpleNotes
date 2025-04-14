@@ -12,7 +12,15 @@ class ThemeInteractorImplementation(private val themeRepository: ThemeRepository
         themeRepository.saveTheme(theme)
     }
 
+    override fun saveAutoTheme(theme: Boolean) {
+        themeRepository.saveAutoTheme(theme)
+    }
+
     override fun getTheme(): Boolean {
         return themeRepository.getTheme()
+    }
+
+    override fun isThemeEditedManually(): Boolean {
+        return themeRepository.isThemeEditedManually()
     }
 }
