@@ -20,15 +20,6 @@ class App : Application() {
             modules(appModule)
         }
 
-
-        if (themeInteractor.isThemeEditedManually()) {
-            val theme = themeInteractor.getTheme()
-            themeInteractor.switchTheme(theme)
-            themeInteractor.saveTheme(theme)
-        } else {
-            val theme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-            themeInteractor.switchTheme(theme)
-            themeInteractor.saveAutoTheme(theme)
-        }
+        themeInteractor.switchTheme(themeInteractor.getTheme())
     }
 }

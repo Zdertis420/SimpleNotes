@@ -1,13 +1,9 @@
 package orc.zdertis420.simplenotes.domain.interactor
 
 interface ThemeInteractor {
-    fun switchTheme(isDarkModeEnabled: Boolean)
+    fun switchTheme(theme: Int)
 
-    fun saveTheme(theme: Boolean)
+    fun saveTheme(theme: Int)
 
-    fun saveAutoTheme(theme: Boolean)
-
-    fun getTheme(): Boolean
-
-    fun isThemeEditedManually(): Boolean
+    fun getTheme(): Int
 }

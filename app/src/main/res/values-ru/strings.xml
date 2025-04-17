@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!-- Main    -->
     <string name="greeting_night">Доброй ночи</string>
     <string name="greeting_morning">Доброе утро</string>
     <string name="greeting_day">Добрый день</string>
@@ -7,7 +8,17 @@
     <string name="active_tasks">Текущие</string>
     <string name="completed_tasks">Выполненные</string>
     <string name="all_tasks">Все</string>
-    <string name="dark_theme">Тёмная тема</string>
+<!--    Settings    -->
     <string name="settings">Settings</string>
-    <string name="sync_theme">Синхронизировать с устройством</string>
+    <string name="theme">Тема</string>
+    <string name="dark_theme">Тёмная</string>
+    <string name="light_theme">Светлая</string>
+    <string name="system_theme">Системная</string>
+<!--    Edit task    -->
+    <string name="new_task">Новая задача</string>
+    <string name="edit_task">Изменение задачи</string>
+    <string name="name">Название</string>
+    <string name="category">Категория</string>
+    <string name="description">Описание</string>
+    <string name="save_task">Сохранить</string>
 </resources>

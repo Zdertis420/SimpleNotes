@@ -6,10 +6,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TaskDto(
     val name: String,
-    val description: String,
     val category: String,
+    val description: String,
     val id: Long,
     val status: TaskStateDto,
     val timestamp: Long,
-    val deadline: Long?
 ) : Parcelable

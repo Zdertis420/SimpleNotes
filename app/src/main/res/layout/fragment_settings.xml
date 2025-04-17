@@ -15,13 +15,14 @@
         app:title="@string/settings"
         app:navigationIcon="@drawable/arrow_back"
         app:titleTextColor="@color/primary_darker"
+
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/theme"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
-        android:text="@string/dark_theme"
+        android:text="@string/theme"
         android:textSize="@dimen/standard_text_size"
         android:gravity="center"
         android:textColor="@color/primary"
@@ -33,18 +34,22 @@
         android:id="@+id/theme_selector"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:hint="@string/dark_theme"
-        android:textColorHint="@color/standard_text_color"
+        android:textColorHint="@color/primary"
+        style="@style/theme_dropdown_menu"
         app:endIconMode="dropdown_menu"
-
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/theme"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <AutoCompleteTextView
+            android:id="@+id/theme_selector_dropdown_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
+            android:inputType="none"
+            android:textColor="@color/primary"
+
             android:background="@color/background_color" />
 
     </com.google.android.material.textfield.TextInputLayout>

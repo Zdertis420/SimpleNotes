@@ -4,23 +4,15 @@ import orc.zdertis420.simplenotes.domain.interactor.ThemeInteractor
 import orc.zdertis420.simplenotes.domain.repository.ThemeRepository
 
 class ThemeInteractorImplementation(private val themeRepository: ThemeRepository) : ThemeInteractor {
-    override fun switchTheme(isDarkModeEnabled: Boolean) {
-        themeRepository.switchTheme(isDarkModeEnabled)
+    override fun switchTheme(theme: Int) {
+        themeRepository.switchTheme(theme)
     }
 
-    override fun saveTheme(theme: Boolean) {
+    override fun saveTheme(theme: Int) {
         themeRepository.saveTheme(theme)
     }
 
-    override fun saveAutoTheme(theme: Boolean) {
-        themeRepository.saveAutoTheme(theme)
-    }
-
-    override fun getTheme(): Boolean {
+    override fun getTheme(): Int {
         return themeRepository.getTheme()
-    }
-
-    override fun isThemeEditedManually(): Boolean {
-        return themeRepository.isThemeEditedManually()
     }
 }

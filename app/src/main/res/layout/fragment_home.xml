@@ -52,4 +52,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus_sign"
+        app:tint="@color/white"
+        android:backgroundTint="@color/primary"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/big_padding"
+        android:layout_marginEnd="@dimen/big_padding" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
