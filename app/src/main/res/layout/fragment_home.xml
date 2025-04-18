@@ -53,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_task"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:src="@drawable/plus_sign"
@@ -62,6 +63,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/big_padding"
-        android:layout_marginEnd="@dimen/big_padding" />
+        android:layout_marginEnd="@dimen/big_padding"
+        tools:ignore="ContentDescription" />
+    <!--    ya know wat?? fuck you and ur warnings    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

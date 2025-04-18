@@ -14,7 +14,7 @@ import orc.zdertis420.simplenotes.ui.state.HomeState
 import orc.zdertis420.simplenotes.ui.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), View.OnClickListener {
 
     private var _views: FragmentHomeBinding? = null
     private val views get() = _views!!
@@ -36,10 +36,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        views.settingsButton.setOnClickListener {
-            val activityNavControl = requireActivity().findNavController(R.id.main_fragment_container)
-            activityNavControl.navigate(R.id.action_homeFragment_to_settingsFragment)
-        }
+        setupClickListeners()
 
         viewModel.homeStateLiveData.observe(viewLifecycleOwner) { state ->
             render(state)
@@ -59,6 +56,13 @@ class HomeFragment : Fragment() {
                 2 -> tab.text = getString(R.string.all_tasks)
             }
         }.also { it.attach() }
+    }
+
+    private fun setupClickListeners() {
+        with(views) {
+            settingsButton.setOnClickListener(this@HomeFragment)
+            newTask.setOnClickListener(this@HomeFragment)
+        }
     }
 
     private fun render(state: HomeState) {
@@ -81,5 +85,15 @@ class HomeFragment : Fragment() {
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         _views = null
+    }
+
+    override fun onClick(v: View?) {
+        val activityNavControl = requireActivity().findNavController(R.id.main_fragment_container)
+
+        when (v?.id) {
+            R.id.settings_button -> activityNavControl.navigate(R.id.action_homeFragment_to_settingsFragment)
+
+            R.id.new_task -> activityNavControl.navigate(R.id.action_homeFragment_to_editTaskFragment)
+        }
     }
 }

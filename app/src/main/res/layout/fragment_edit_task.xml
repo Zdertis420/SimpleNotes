@@ -10,17 +10,20 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:titleTextColor="@color/primary"
+        app:navigationIcon="@drawable/arrow_back"
+        app:titleTextColor="@color/primary_darker"
+
 
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/task_name"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/input_field_height"
         android:background="@drawable/input_line"
         android:backgroundTint="@color/gray"
         android:hint="@string/name"
+        android:textColorHint="@color/primary_darker"
         android:inputType="text"
         android:paddingStart="@dimen/medium_padding"
         android:paddingEnd="@dimen/medium_padding"
@@ -33,10 +36,11 @@
     <EditText
         android:id="@+id/task_category"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/input_field_height"
         android:background="@drawable/input_line"
         android:backgroundTint="@color/gray"
         android:hint="@string/category"
+        android:textColorHint="@color/primary_darker"
         android:inputType="text"
         android:paddingStart="@dimen/medium_padding"
         android:paddingEnd="@dimen/medium_padding"
@@ -49,10 +53,11 @@
     <EditText
         android:id="@+id/task_description"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/input_field_height"
         android:background="@drawable/input_line"
         android:backgroundTint="@color/gray"
         android:hint="@string/description"
+        android:textColorHint="@color/primary_darker"
         android:inputType="text"
         android:paddingStart="@dimen/medium_padding"
         android:paddingEnd="@dimen/medium_padding"
@@ -63,16 +68,15 @@
         android:layout_marginTop="@dimen/medium_padding"  />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_width="120dp"
+        android:layout_height="@dimen/input_field_height"
         android:layout_marginTop="@dimen/medium_padding"
-        android:padding="@dimen/medium_padding"
         android:text="@string/save_task"
+        android:gravity="center"
         android:textSize="@dimen/standard_title_size"
         android:textColor="@color/white"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/primary"
-
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

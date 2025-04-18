@@ -7,17 +7,38 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="orc.zdertis420.simplenotes.ui.fragment.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment"
             app:enterAnim="@anim/roll_up"
-            app:popExitAnim="@anim/roll_down"
-            />
+            app:popExitAnim="@anim/roll_down" />
+        <action
+            android:id="@+id/action_homeFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment"
+            app:enterAnim="@anim/roll_up"
+            app:popExitAnim="@anim/roll_down" />
     </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="orc.zdertis420.simplenotes.ui.fragment.SettingsFragment"
         android:label="SettingsFragment" />
+
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="orc.zdertis420.simplenotes.ui.fragment.EditTaskFragment"
+        android:label="EditTaskFragment">
+        <argument
+            android:name="task"
+            android:defaultValue="null"
+            app:argType="orc.zdertis420.simplenotes.data.dto.TaskDto"
+            app:nullable="true" />
+    </fragment>
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="orc.zdertis420.simplenotes.ui.MainActivity"
+        android:label="MainActivity" />
+
 </navigation>
