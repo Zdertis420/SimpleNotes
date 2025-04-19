@@ -6,6 +6,6 @@ data class Task(
     val category: String,
     val description: String,
     val id: Long,
-    val status: TaskState,
+    val completed: Boolean,
     val timestamp: Long,
 )

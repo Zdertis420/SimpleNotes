@@ -1,46 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/medium_padding"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        app:navigationIcon="@drawable/arrow_back"
+
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/task_name"
-        android:layout_width="296dp"
-        android:layout_height="40dp"
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:text="@string/name"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/primary_darker"
+
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/name_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/standard_text_color"
         android:ellipsize="marquee"
         android:focusable="true"
-
         android:focusableInTouchMode="true"
         android:singleLine="true"
-        android:text="@string/settings"
-        android:textColor="@color/primary"
+        android:scrollHorizontally="true"
 
-        android:textSize="@dimen/standard_title_size"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="@dimen/medium_padding"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toEndOf="@+id/name" />
 
     <TextView
-        android:id="@+id/task_category"
-        android:layout_width="296dp"
-        android:layout_height="32dp"
-        android:text="@string/settings"
-        android:textColor="@color/primary_brighter"
-
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:text="@string/category"
         android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/primary_darker"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_name" />
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+    <TextView
+        android:id="@+id/category_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/standard_text_color"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
 
-        app:layout_constraintStart_toEndOf="@+id/task_name"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="@dimen/medium_padding"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/name_placeholder"
+        app:layout_constraintStart_toEndOf="@+id/category" />
 
+    <TextView
+        android:id="@+id/created"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:text="@string/created"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/primary_darker"
 
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/category"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/created_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/standard_text_color"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+
+        android:layout_marginStart="@dimen/medium_padding"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/category_placeholder"
+        app:layout_constraintStart_toEndOf="@+id/created" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/primary_darker"
+        android:text="@string/description"
+
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/created"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:id="@+id/description_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/primary_darker"
+
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:text="@string/created"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/primary_darker"
+
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/description_placeholder"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/id_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textSize="@dimen/standard_text_size"
+        android:textColor="@color/standard_text_color"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+
+        android:layout_marginStart="@dimen/medium_padding"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        app:layout_constraintTop_toBottomOf="@+id/description_placeholder"
+        app:layout_constraintStart_toEndOf="@+id/id" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,8 +17,18 @@
 <!--    Edit task    -->
     <string name="new_task">Новая задача</string>
     <string name="edit_task">Изменение задачи</string>
-    <string name="name">Название</string>
-    <string name="category">Категория</string>
-    <string name="description">Описание</string>
+    <string name="name_input">Название</string>
+    <string name="category_input">Категория</string>
+    <string name="description_input">Описание</string>
     <string name="save_task">Сохранить</string>
+
+    <string name="no_tasks">Задач пока нет…</string>
+<!--    Task    -->
+    <string name="name">Название: </string>
+    <string name="category">Категрия: </string>
+    <string name="completed">Выполнена: </string>
+    <string name="yas">Да</string>
+    <string name="no">Нет</string>
+    <string name="created">Создана: </string>
+    <string name="description">Описание</string>
 </resources>

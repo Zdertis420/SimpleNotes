@@ -11,4 +11,5 @@
     <dimen name="small_padding">12dp</dimen>
     <dimen name="even_smaller_padding">8dp</dimen>
     <dimen name="input_field_height">48dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
 </resources>

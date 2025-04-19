@@ -17,8 +17,20 @@
 <!--    Edit task    -->
     <string name="new_task">New Task</string>
     <string name="edit_task">Edit Task</string>
-    <string name="name">Name</string>
-    <string name="category">Category</string>
-    <string name="description">Description</string>
+    <string name="name_input">Name</string>
+    <string name="category_input">Category</string>
+    <string name="description_input">Description</string>
     <string name="save_task">Save</string>
+
+    <string name="no_tasks">No tasks here yet…</string>
+
+<!--    Task    -->
+    <string name="name">Name: </string>
+    <string name="category">Category: </string>
+    <string name="completed">Completed: </string>
+    <string name="yas">Yes</string>
+    <string name="no">No</string>
+    <string name="created">Created: </string>
+    <string name="description">Description</string>
+    <string name="id" translatable="false">Id: </string>
 </resources>
