@@ -11,12 +11,14 @@ import orc.zdertis420.simplenotes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val views by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private var _views: ActivityMainBinding? = null
+    private val views get() = _views!!
 
     val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        _views = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(views.root)
         ViewCompat.setOnApplyWindowInsetsListener(views.mainFragmentContainer) { view, windowInsetsCompat ->
@@ -27,5 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = fragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _views = null
     }
 }

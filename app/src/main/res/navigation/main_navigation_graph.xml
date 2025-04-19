@@ -31,7 +31,6 @@
         android:label="EditTaskFragment">
         <argument
             android:name="task"
-            android:defaultValue="null"
             app:argType="orc.zdertis420.simplenotes.data.dto.TaskDto"
             app:nullable="true" />
     </fragment>

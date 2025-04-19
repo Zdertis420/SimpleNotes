@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "orc.zdertis420.simplenotes"
-        minSdk = 27
+        minSdk = 33
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
