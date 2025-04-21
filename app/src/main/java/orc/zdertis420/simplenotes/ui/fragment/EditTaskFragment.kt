@@ -85,7 +85,7 @@ class EditTaskFragment : Fragment() {
     }
 
     private fun showSavingError() {
-        Toast.makeText(this, getString(R.string.saving_error), Toast.LENGTH_SHORT)
+        Toast.makeText(context, getString(R.string.saving_error), Toast.LENGTH_SHORT).show()
     }
 
     private fun indicateSaved() {
