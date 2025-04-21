@@ -1,8 +1,10 @@
 package orc.zdertis420.simplenotes
 
 import android.app.Application
-import android.content.res.Configuration
-import orc.zdertis420.simplenotes.di.appModule
+import orc.zdertis420.simplenotes.di.home
+import orc.zdertis420.simplenotes.di.main
+import orc.zdertis420.simplenotes.di.task
+import orc.zdertis420.simplenotes.di.themes
 import orc.zdertis420.simplenotes.domain.interactor.ThemeInteractor
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -17,7 +19,12 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(appModule)
+            modules(
+                main,
+                home,
+                themes,
+                task,
+            )
         }
 
         themeInteractor.switchTheme(themeInteractor.getTheme())

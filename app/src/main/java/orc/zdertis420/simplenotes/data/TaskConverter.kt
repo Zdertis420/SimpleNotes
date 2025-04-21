@@ -9,7 +9,7 @@ fun Task.toDto(): TaskDto {
         category = category,
         description = description,
         id = id,
-        status = status,
+        completed = completed,
         timestamp = timestamp
     )
 }
@@ -20,7 +20,7 @@ fun TaskDto.toTask(): Task {
         category = category,
         description = description,
         id = id,
-        status = status,
+        completed = completed,
         timestamp = timestamp
     )
 }

@@ -21,6 +21,8 @@
     <string name="category_input">Категория</string>
     <string name="description_input">Описание</string>
     <string name="save_task">Сохранить</string>
+    <string name="saved">Задача сохранена!</string>
+
 
     <string name="no_tasks">Задач пока нет…</string>
 <!--    Task    -->
@@ -31,4 +33,7 @@
     <string name="no">Нет</string>
     <string name="created">Создана: </string>
     <string name="description">Описание</string>
+
+<!--    Errors    -->
+    <string name="saving_error">Ошибка при сохранении</string>
 </resources>

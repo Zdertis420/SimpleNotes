@@ -21,6 +21,7 @@
     <string name="category_input">Category</string>
     <string name="description_input">Description</string>
     <string name="save_task">Save</string>
+    <string name="saved">Task Saved!</string>
 
     <string name="no_tasks">No tasks here yet…</string>
 
@@ -33,4 +34,7 @@
     <string name="created">Created: </string>
     <string name="description">Description</string>
     <string name="id" translatable="false">Id: </string>
+
+<!--    Errors    -->
+    <string name="saving_error">Unable to save. Error occurred</string>
 </resources>
