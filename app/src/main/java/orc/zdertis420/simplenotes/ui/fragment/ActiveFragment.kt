@@ -4,20 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import orc.zdertis420.simplenotes.domain.entity.Task
-import orc.zdertis420.simplenotes.ui.adapter.TaskAdapter
-import orc.zdertis420.simplenotes.ui.state.TaskState
-import orc.zdertis420.simplenotes.ui.viewmodel.TaskViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import orc.zdertis420.simplenotes.domain.entity.TaskType
 
 class ActiveFragment : BaseTaskFragment() {
-
-    override fun getTasks(): List<Task> {
-
-    }
-
-    override fun getAdapter(): TaskAdapter {
-        TODO("Not yet implemented")
+    override fun getTasksType(): TaskType {
+        return TaskType.ACTIVE
     }
 
     override fun onCreateView(
@@ -25,6 +16,6 @@ class ActiveFragment : BaseTaskFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 }

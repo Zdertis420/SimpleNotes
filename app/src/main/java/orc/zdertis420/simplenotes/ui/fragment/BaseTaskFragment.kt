@@ -1,6 +1,7 @@
 package orc.zdertis420.simplenotes.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +28,6 @@ abstract class BaseTaskFragment : Fragment() {
     private lateinit var tasks: List<Task>
 
     abstract fun getTasksType(): TaskType
-
-    abstract fun getAdapter(tasks: List<Task>): TaskAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +56,8 @@ abstract class BaseTaskFragment : Fragment() {
         }
 
         viewModel.loadTasks(getTasksType())
+
+
     }
 
     protected fun execute(state: TaskState) {
@@ -66,8 +67,15 @@ abstract class BaseTaskFragment : Fragment() {
         }
     }
 
-    private fun loadTasks(tasks: List<Task>) {
-        this.tasks = tasks
-        tasksRecyclerView.adapter = getAdapter(tasks)
+    private fun loadTasks(filteredTasks: List<Task>) {
+        this.tasks = filteredTasks
+
+//        Log.d("TASK", "Tasks in fragment:\nTasks names: ${filteredTasks.map { it.name }}")
+
+        tasksRecyclerView.adapter = TaskAdapter(tasks)
+
+        (tasksRecyclerView.adapter as TaskAdapter).setOnItemClickListener { position ->
+            Log.d("TASK", "Clicked on task: ${tasks[position].name}")
+        }
     }
 }

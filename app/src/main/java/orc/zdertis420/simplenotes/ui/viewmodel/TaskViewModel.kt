@@ -28,6 +28,8 @@ class TaskViewModel(
         }
 
         val lastTask = taskDtos.lastOrNull()
+
+//        Log.d("TASK", "Last task:\nName: ${lastTask?.name}; Id: ${lastTask?.id}")
         
         val newTask = Task(
             name = name,
@@ -37,6 +39,8 @@ class TaskViewModel(
             completed = false,
             timestamp = System.currentTimeMillis()
         )
+
+//        Log.d("TASK", "New task:\nName: ${newTask.name}; Id: ${newTask.id}")
 
         taskDtos.add(newTask.toDto())
 
@@ -49,6 +53,8 @@ class TaskViewModel(
         val tasks = taskDtos.map { task ->
             task.toTask()
         }
+
+//        Log.d("TASK", "Loaded tasks:\nNames: ${tasks.map { it.name }}")
 
         when (taskType) {
             TaskType.ALL -> _taskStateLiveData.postValue(TaskState.Loaded(tasks))

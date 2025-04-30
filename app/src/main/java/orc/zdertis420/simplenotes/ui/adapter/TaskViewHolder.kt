@@ -15,13 +15,16 @@ class TaskViewHolder(
     private val taskName: TextView = itemView.findViewById(R.id.task_name)
     private val taskCategory: TextView = itemView.findViewById(R.id.task_category)
     private val taskCompleted: MaterialCheckBox = itemView.findViewById(R.id.task_completed)
+    private val taskCreationDate: TextView = itemView.findViewById(R.id.creation_date)
 
     fun bind(model: Task) {
         taskName.text = model.name
         taskCategory.text = model.category
         taskCompleted.isChecked = model.completed
+        taskCreationDate.text = model.timestamp
 
         taskName.isSelected = true
+        taskCategory.isSelected = true
     }
 
     init {
