@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.domain.entity.Task
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TaskViewHolder(
     itemView: View,
@@ -21,7 +23,8 @@ class TaskViewHolder(
         taskName.text = model.name
         taskCategory.text = model.category
         taskCompleted.isChecked = model.completed
-        taskCreationDate.text = model.timestamp
+        taskCreationDate.text =
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(model.timestamp)
 
         taskName.isSelected = true
         taskCategory.isSelected = true

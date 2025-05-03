@@ -1,15 +1,18 @@
 package orc.zdertis420.simplenotes.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.databinding.FragmentHomeBinding
+import orc.zdertis420.simplenotes.ui.Updatable
 import orc.zdertis420.simplenotes.ui.adapter.PagerAdapter
 import orc.zdertis420.simplenotes.ui.state.HomeState
 import orc.zdertis420.simplenotes.ui.viewmodel.HomeViewModel
@@ -47,7 +50,21 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         views.viewPager.adapter = PagerAdapter(childFragmentManager, lifecycle)
         setupTabLayout()
+
+//        views.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//
+//                updateVisibleFragment()
+//            }
+//        })
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//
+//        updateVisibleFragment()
+//    }
 
     private fun setupTabLayout() {
         tabLayoutMediator = TabLayoutMediator(views.tabLayout, views.viewPager) { tab, position ->
@@ -80,6 +97,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
             3 -> views.homeToolbar.subtitle = getString(R.string.greeting_evening)
         }
     }
+
+//    private fun updateVisibleFragment() {
+//        val position = views.viewPager.currentItem
+//        Log.d("HomeFragment", "updateVisibleFragment: $position")
+//        val fragment = childFragmentManager.findFragmentByTag("f$position") as? Updatable
+//        fragment?.update()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

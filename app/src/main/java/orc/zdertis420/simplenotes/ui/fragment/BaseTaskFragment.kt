@@ -25,7 +25,7 @@ abstract class BaseTaskFragment : Fragment() {
 
     protected lateinit var tasksRecyclerView: RecyclerView
 
-    private lateinit var tasks: List<Task>
+    private var tasks = listOf<Task>()
 
     abstract fun getTasksType(): TaskType
 
@@ -51,31 +51,32 @@ abstract class BaseTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
-            execute(state)
-        }
-
-        viewModel.loadTasks(getTasksType())
-
-
-    }
-
-    protected fun execute(state: TaskState) {
-        when (state) {
-            is TaskState.Loaded -> loadTasks(state.tasks)
-            else -> {}
-        }
-    }
-
-    private fun loadTasks(filteredTasks: List<Task>) {
-        this.tasks = filteredTasks
-
-//        Log.d("TASK", "Tasks in fragment:\nTasks names: ${filteredTasks.map { it.name }}")
-
         tasksRecyclerView.adapter = TaskAdapter(tasks)
 
         (tasksRecyclerView.adapter as TaskAdapter).setOnItemClickListener { position ->
             Log.d("TASK", "Clicked on task: ${tasks[position].name}")
         }
+
+        viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
+            execute(state)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.loadTasks(getTasksType())
+    }
+
+    protected fun execute(state: TaskState) {
+        when (state) {
+            is TaskState.Loaded -> updateTasks(state.tasks)
+            else -> {}
+        }
+    }
+
+    private fun updateTasks(tasks: List<Task>) {
+        this.tasks = tasks
+        (tasksRecyclerView.adapter as TaskAdapter).updateTasks(tasks)
     }
 }

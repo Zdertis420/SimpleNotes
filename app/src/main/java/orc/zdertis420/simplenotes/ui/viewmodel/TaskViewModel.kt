@@ -17,10 +17,10 @@ class TaskViewModel(
     private val _taskStateLiveData = MutableLiveData<TaskState>()
     val taskStateLiveData get() = _taskStateLiveData
 
-    private val taskDtos = taskInteractor.loadTasks().toMutableList()
-
     fun saveTask(name: String, category: String, description: String) {
         Log.d("SAVE TASK", "view model")
+
+        val taskDtos = taskInteractor.loadTasks().toMutableList()
 
         if (name.isEmpty()) {
             _taskStateLiveData.postValue(TaskState.Error.SavingError)
@@ -50,6 +50,8 @@ class TaskViewModel(
     }
 
     fun loadTasks(taskType: TaskType) {
+        val taskDtos = taskInteractor.loadTasks().toMutableList()
+
         val tasks = taskDtos.map { task ->
             task.toTask()
         }
@@ -61,5 +63,7 @@ class TaskViewModel(
             TaskType.ACTIVE -> _taskStateLiveData.postValue(TaskState.Loaded(tasks.filter { it.completed == false }))
             TaskType.COMPLETED -> _taskStateLiveData.postValue(TaskState.Loaded(tasks.filter { it.completed == true }))
         }
+
+//        _taskStateLiveData.postValue(TaskState.Loaded(tasks))
     }
 }

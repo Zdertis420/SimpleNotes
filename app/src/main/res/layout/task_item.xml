@@ -67,6 +67,7 @@
         android:id="@+id/task_completed"
         android:layout_width="wrap_content"
         android:layout_height="72dp"
+        android:buttonTint="@color/primary_darker"
 
         app:layout_constraintEnd_toStartOf="@+id/overflow_menu"
         app:layout_constraintTop_toTopOf="parent" />
