@@ -2,18 +2,20 @@ package orc.zdertis420.simplenotes.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import orc.zdertis420.simplenotes.domain.entity.Task
 import orc.zdertis420.simplenotes.R
 
-class TaskAdapter(private var tasks: List<Task>) : RecyclerView.Adapter<TaskViewHolder>() {
+class TaskAdapter(
+    private var tasks: List<Task>,
+    private val onOverflowMenu: ((Int, View) -> Unit)?,
+    private val onCheckbox: ((Int, Boolean) -> Unit)?,
+    private val onItem: ((Int) -> Unit)?
+) : RecyclerView.Adapter<TaskViewHolder>() {
 
-    private var onItemClickListener: ((position: Int) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (position: Int) -> Unit) {
-        onItemClickListener = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(
@@ -23,7 +25,9 @@ class TaskAdapter(private var tasks: List<Task>) : RecyclerView.Adapter<TaskView
                     parent,
                     false
                 ),
-            onItemClickListener
+            onOverflowMenu,
+            onCheckbox,
+            onItem
         )
     }
 

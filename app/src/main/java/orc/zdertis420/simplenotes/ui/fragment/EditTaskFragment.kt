@@ -1,6 +1,5 @@
 package orc.zdertis420.simplenotes.ui.fragment
 
-import android.app.Application
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,7 +18,6 @@ import orc.zdertis420.simplenotes.domain.entity.Task
 import orc.zdertis420.simplenotes.ui.state.TaskState
 import orc.zdertis420.simplenotes.ui.viewmodel.TaskViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.logger.Logger
 
 class EditTaskFragment : Fragment() {
 
@@ -53,6 +51,10 @@ class EditTaskFragment : Fragment() {
 
             setupToolbar()
 
+            if (task != null) {
+                fillFields()
+            }
+
             viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
                 render(state)
             }
@@ -71,8 +73,14 @@ class EditTaskFragment : Fragment() {
         if (task == null) {
             views.toolbar.title = getString(R.string.new_task)
         } else {
-            views.toolbar.title = getString(R.string.edit_task)
+            views.toolbar.title = getString(R.string.task_editing)
         }
+    }
+
+    private fun fillFields() {
+//        views.taskName.setText(task!!.name)
+//        views.taskCategory.setText(task!!.category)
+//        views.taskDescription.setText(task!!.description)
     }
 
     private fun render(state: TaskState) {

@@ -16,12 +16,14 @@
     <string name="system_theme">System</string>
 <!--    Edit task    -->
     <string name="new_task">New Task</string>
-    <string name="edit_task">Edit Task</string>
+    <string name="task_editing">Task Editing</string>
     <string name="name_input">Name</string>
     <string name="category_input">Category</string>
     <string name="description_input">Description</string>
     <string name="save_task">Save</string>
     <string name="saved">Task Saved!</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
 
     <string name="no_tasks">No tasks here yet…</string>
 

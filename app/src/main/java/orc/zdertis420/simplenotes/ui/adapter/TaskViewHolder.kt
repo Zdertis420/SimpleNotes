@@ -1,29 +1,26 @@
 package orc.zdertis420.simplenotes.ui.adapter
 
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.checkbox.MaterialCheckBox
-import orc.zdertis420.simplenotes.R
+import orc.zdertis420.simplenotes.databinding.TaskItemBinding
 import orc.zdertis420.simplenotes.domain.entity.Task
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TaskViewHolder(
     itemView: View,
-    private val onItemClickListener: ((position: Int) -> Unit)?
+    private val onOverflowMenu: ((Int, View) -> Unit)?,
+    private val onCheckbox: ((Int, Boolean) -> Unit)?,
+    private val onItem: ((Int) -> Unit)?
 ) : RecyclerView.ViewHolder(itemView) {
 
-    private val taskName: TextView = itemView.findViewById(R.id.task_name)
-    private val taskCategory: TextView = itemView.findViewById(R.id.task_category)
-    private val taskCompleted: MaterialCheckBox = itemView.findViewById(R.id.task_completed)
-    private val taskCreationDate: TextView = itemView.findViewById(R.id.creation_date)
+    private val views = TaskItemBinding.bind(itemView)
 
-    fun bind(model: Task) {
+    fun bind(model: Task) = with(views) {
         taskName.text = model.name
         taskCategory.text = model.category
         taskCompleted.isChecked = model.completed
-        taskCreationDate.text =
+        creationDate.text =
             SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(model.timestamp)
 
         taskName.isSelected = true
@@ -31,10 +28,24 @@ class TaskViewHolder(
     }
 
     init {
-        itemView.setOnClickListener {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                onItemClickListener?.invoke(position)
+        with(views) {
+            root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItem?.invoke(position)
+                }
+            }
+            taskCompleted.setOnCheckedChangeListener { _, isChecked ->
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onCheckbox?.invoke(position, isChecked)
+                }
+            }
+            overflowMenu.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onOverflowMenu?.invoke(position, overflowMenu)
+                }
             }
         }
     }
