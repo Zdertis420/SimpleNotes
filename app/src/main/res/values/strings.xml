@@ -8,6 +8,7 @@
     <string name="active_tasks">Active</string>
     <string name="completed_tasks">Completed</string>
     <string name="all_tasks">All</string>
+    <string name="search_tasks">Search</string>
 <!--    Settings    -->
     <string name="settings">Settings</string>
     <string name="theme">Theme</string>

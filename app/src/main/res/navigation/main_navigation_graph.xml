@@ -18,6 +18,11 @@
             app:destination="@id/editTaskFragment"
             app:enterAnim="@anim/roll_up"
             app:popExitAnim="@anim/roll_down" />
+        <action
+            android:id="@+id/action_homeFragment_to_taskFragment"
+            app:destination="@id/taskFragment"
+            app:enterAnim="@anim/roll_up"
+            app:popExitAnim="@anim/roll_down"/>
     </fragment>
 
     <fragment
@@ -33,6 +38,16 @@
             android:name="task"
             app:argType="orc.zdertis420.simplenotes.data.dto.TaskDto"
             app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="orc.zdertis420.simplenotes.ui.fragment.TaskFragment"
+        android:label="TaskFragment">
+        <argument
+            android:name="task"
+            app:argType="orc.zdertis420.simplenotes.data.dto.TaskDto"
+            app:nullable="false"/>
     </fragment>
 
     <activity

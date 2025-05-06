@@ -29,8 +29,10 @@ class EditTaskFragment : Fragment() {
     private var task: Task? = null
 
     private val handler = Handler(Looper.getMainLooper())
-    private val hideIndicator = Runnable {
+    private val finishEditing = Runnable {
         views.savedIndicator.visibility = View.GONE
+        views.saveTask.isClickable = true
+        findNavController().navigateUp()
     }
 
     override fun onCreateView(
@@ -78,14 +80,14 @@ class EditTaskFragment : Fragment() {
     }
 
     private fun fillFields() {
-//        views.taskName.setText(task!!.name)
-//        views.taskCategory.setText(task!!.category)
-//        views.taskDescription.setText(task!!.description)
+        views.taskName.setText(task!!.name)
+        views.taskCategory.setText(task!!.category)
+        views.taskDescription.setText(task!!.description)
     }
 
     private fun render(state: TaskState) {
         when (state) {
-            is TaskState.Saved -> indicateSaved()
+            is TaskState.Saved -> finish()
             is TaskState.Error.SavingError -> showSavingError()
 
             else -> {}
@@ -96,23 +98,33 @@ class EditTaskFragment : Fragment() {
         Toast.makeText(context, getString(R.string.saving_error), Toast.LENGTH_SHORT).show()
     }
 
-    private fun indicateSaved() {
+    private fun finish() {
+        views.saveTask.isClickable = false
         views.savedIndicator.visibility = View.VISIBLE
-        handler.postDelayed(hideIndicator, 2500)
+        handler.postDelayed(finishEditing, 750)
     }
 
     private fun saveTask() {
         Log.d("SAVE TASK", "fragment")
-        viewModel.saveTask(
-            name = views.taskName.text.toString(),
-            category = views.taskCategory.text.toString(),
-            description = views.taskDescription.text.toString()
-        )
+        if (task == null) {
+            viewModel.saveTask(
+                name = views.taskName.text.toString(),
+                category = views.taskCategory.text.toString(),
+                description = views.taskDescription.text.toString()
+            )
+        } else {
+            viewModel.updateTask(
+                task!!,
+                name = views.taskName.text.toString(),
+                category = views.taskCategory.text.toString(),
+                description = views.taskDescription.text.toString()
+            )
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        handler.removeCallbacks(hideIndicator)
+        handler.removeCallbacks(finishEditing)
         _views = null
     }
 }

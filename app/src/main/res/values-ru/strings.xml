@@ -8,6 +8,7 @@
     <string name="active_tasks">Текущие</string>
     <string name="completed_tasks">Выполненные</string>
     <string name="all_tasks">Все</string>
+    <string name="search_tasks">Поиск</string>
 <!--    Settings    -->
     <string name="settings">Settings</string>
     <string name="theme">Тема</string>

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import orc.zdertis420.simplenotes.R
@@ -31,8 +31,6 @@ abstract class BaseTaskFragment : Fragment() {
     protected lateinit var tasksRecyclerView: RecyclerView
 
     private var tasks = listOf<Task>()
-
-    private val activityNavController = requireActivity().findNavController(R.id.main_fragment_container)
 
     abstract fun getTasksType(): TaskType
 
@@ -61,18 +59,25 @@ abstract class BaseTaskFragment : Fragment() {
         tasksRecyclerView.adapter = TaskAdapter(
             tasks,
             onOverflowMenu = { position, anchor ->
-                Log.d("TASK", "Overflow menu clicked for task: ${tasks[position].name}")
+                val task = tasks[position]
+                Log.d("TASK", "Overflow menu clicked for task: ${task.name}")
 
-                showPopupMenu(tasks[position], anchor)
-
-                val args = bundleOf("task" to tasks[position].toDto())
-                activityNavController.navigate(R.id.action_homeFragment_to_editTaskFragment, args)
+                showPopupMenu(task, anchor)
             },
+
             onCheckbox = { position, isChecked ->
-                Log.d("TASK", "Task ${tasks[position].name} completed: $isChecked")
+                val task = tasks[position]
+                Log.d("TASK", "Task ${task.name} completed: $isChecked")
+
+                viewModel.updateCompleteness(task, isChecked)
             },
+
             onItem = { position ->
-                Log.d("TASK", "Task clicked: ${tasks[position].name}")
+                val task = tasks[position]
+                Log.d("TASK", "Task clicked: ${task.name}")
+
+                val args = bundleOf("task" to task.toDto())
+                findNavController().navigate(R.id.action_homeFragment_to_taskFragment, args)
             }
         )
 
@@ -108,13 +113,18 @@ abstract class BaseTaskFragment : Fragment() {
                 R.id.task_action_edit -> {
                     Log.d("TASK", "Editing task: ${task.name}")
 
-
+                    val args = bundleOf("task" to task.toDto())
+                    findNavController().navigate(R.id.action_homeFragment_to_editTaskFragment, args)
 
                     true
                 }
 
                 R.id.task_action_delete -> {
                     Log.d("TASK", "Delete task: ${task.name}")
+
+                    viewModel.removeTask(task)
+                    viewModel.loadTasks(getTasksType())
+
                     true
                 }
 

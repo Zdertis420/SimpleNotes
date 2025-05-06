@@ -5,7 +5,7 @@ data class Task(
     val name: String,
     val category: String,
     val description: String,
-    val id: Long,
+    val id: Int,
     val completed: Boolean,
     val timestamp: Long,
 )

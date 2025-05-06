@@ -56,7 +56,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             when (position) {
                 0 -> tab.text = getString(R.string.active_tasks)
                 1 -> tab.text = getString(R.string.completed_tasks)
-                2 -> tab.text = getString(R.string.all_tasks)
             }
         }.also { it.attach() }
     }
