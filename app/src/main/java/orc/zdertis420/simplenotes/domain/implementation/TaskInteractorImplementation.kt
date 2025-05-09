@@ -6,14 +6,19 @@ import orc.zdertis420.simplenotes.domain.interactor.TaskInteractor
 import orc.zdertis420.simplenotes.domain.repository.TaskRepository
 
 class TaskInteractorImplementation(val taskRepository: TaskRepository) : TaskInteractor {
-    override fun saveTasks(
-        activeTasks: List<TaskDto>,
-        completedTasks: List<TaskDto>
-    ) {
-        taskRepository.saveTasks(activeTasks, completedTasks)
+    override fun saveActiveTasks(activeTasks: List<TaskDto>) {
+        taskRepository.saveActiveTasks(activeTasks)
     }
 
-    override fun loadTasks(): Map<TaskType, List<TaskDto>> {
-        return taskRepository.loadTasks()
+    override fun saveCompletedTasks(completedTasks: List<TaskDto>) {
+        taskRepository.saveCompletedTasks(completedTasks)
+    }
+
+    override fun loadActiveTasks(): List<TaskDto> {
+        return taskRepository.loadActiveTasks()
+    }
+
+    override fun loadCompletedTasks(): List<TaskDto> {
+        return taskRepository.loadCompletedTasks()
     }
 }

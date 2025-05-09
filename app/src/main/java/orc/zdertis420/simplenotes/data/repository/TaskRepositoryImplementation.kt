@@ -13,26 +13,25 @@ class TaskRepositoryImplementation(context: Context) : TaskRepository {
 
     private val tasksPreferences by lazy { context.getSharedPreferences("TASKS", MODE_PRIVATE) }
 
-    override fun saveTasks(
-        activeTasks: List<TaskDto>,
-        completedTasks: List<TaskDto>
-    ) {
+    override fun saveActiveTasks(activeTasks: List<TaskDto>) {
         tasksPreferences.edit {
-            putString("ACTIVE_TASKS", Json.encodeToString(activeTasks))
-            putString("COMPLETED_TASKS", Json.encodeToString(completedTasks))
+            putString("ACTIVE", Json.encodeToString(activeTasks))
         }
     }
 
-    override fun loadTasks(): Map<TaskType, List<TaskDto>> {
-        val activeTasks = Json.decodeFromString<List<TaskDto>>(
-            tasksPreferences.getString("ACTIVE_TASKS", "[]").toString()
-        )
-        val completedTasks = Json.decodeFromString<List<TaskDto>>(
-            tasksPreferences.getString("COMPLETED_TASKS", "[]").toString()
-        )
-
-        val tasks: Map<TaskType, List<TaskDto>> = mapOf(TaskType.ACTIVE to activeTasks, TaskType.COMPLETED to completedTasks)
-
-        return tasks
+    override fun saveCompletedTasks(completedTasks: List<TaskDto>) {
+        tasksPreferences.edit {
+            putString("COMPLETED", Json.encodeToString(completedTasks))
+        }
     }
+
+    override fun loadActiveTasks(): List<TaskDto> {
+        return Json.decodeFromString(tasksPreferences.getString("ACTIVE", "[]").toString())
+    }
+
+    override fun loadCompletedTasks(): List<TaskDto> {
+        return Json.decodeFromString(tasksPreferences.getString("COMPLETED", "[]").toString())
+    }
+
+
 }

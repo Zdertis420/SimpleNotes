@@ -1,12 +1,12 @@
 package orc.zdertis420.simplenotes.ui.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import orc.zdertis420.simplenotes.data.toDto
 import orc.zdertis420.simplenotes.data.toTask
 import orc.zdertis420.simplenotes.domain.entity.Task
-import orc.zdertis420.simplenotes.domain.entity.TaskType
 import orc.zdertis420.simplenotes.domain.interactor.TaskInteractor
 import orc.zdertis420.simplenotes.ui.state.TaskState
 
@@ -15,120 +15,73 @@ class TaskViewModel(
 ) : ViewModel() {
 
     private val _taskStateLiveData = MutableLiveData<TaskState>()
-    val taskStateLiveData get() = _taskStateLiveData
+    val taskStateLiveData: LiveData<TaskState> get() = _taskStateLiveData
 
-    fun saveTask(name: String, category: String, description: String) {
-        Log.d("SAVE TASK", "view model")
+    fun saveTasks(activeTasks: List<Task>, completedTask: List<Task>) {
+        taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
+        taskInteractor.saveCompletedTasks(completedTask.map { it.toDto() })
+    }
 
-        val taskDtos = taskInteractor.loadTasks()
-        val activeTasks = taskDtos[TaskType.ACTIVE]?.map { it.toTask() }?.toMutableList() ?: mutableListOf()
-
-        if (name.isEmpty()) {
-            _taskStateLiveData.postValue(TaskState.Error.SavingError)
-            return
-        }
+    fun addTask(name: String, category: String, description: String) {
+        val activeTasks = taskInteractor.loadActiveTasks().map { it.toTask() }.toMutableList()
 
         val lastTask = activeTasks.lastOrNull()
-
-//        Log.d("TASK", "Last task:\nName: ${lastTask?.name}; Id: ${lastTask?.id}")
 
         val newTask = Task(
             name = name,
             category = category,
             description = description,
-            id = lastTask?.id?.plus(1) ?: 0,
+            id = lastTask?.id?.plus(1)?:0,
             completed = false,
             timestamp = System.currentTimeMillis()
         )
 
-//        Log.d("TASK", "New task:\nName: ${newTask.name}; Id: ${newTask.id}")
-
         activeTasks.add(newTask)
 
-        taskInteractor.saveTasks(activeTasks.map { it.toDto() }.toList(), taskDtos[TaskType.COMPLETED]?:emptyList())
-
-        _taskStateLiveData.postValue(TaskState.Saved)
+        taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
     }
 
-    fun updateTask(task: Task, name: String, category: String, description: String) {
-        Log.d("SAVE TASK", "view model")
+    fun updateTask(id: Int, name: String, category: String, description: String) {
 
-        val taskDtos = taskInteractor.loadTasks()
-        val activeTasks = taskDtos[TaskType.ACTIVE]!!.map { it.toTask() }.toMutableList()
-        val completedTasks = taskDtos[TaskType.COMPLETED]!!.map { it.toTask() }.toMutableList()
+    }
 
-        val updatedTask = Task(
-            name = name,
-            category = category,
-            description = description,
-            id = task.id,
-            completed = task.completed,
-            timestamp = System.currentTimeMillis()
-        )
-
-        if (activeTasks.contains(task) == true) {
-            activeTasks[task.id] = updatedTask
+    fun updateCompleteness(id: Int, completed: Boolean) {
+        val activeTasks = taskInteractor.loadActiveTasks().map { it.toTask() }.toMutableList()
+        val completedTasks = taskInteractor.loadCompletedTasks().map { it.toTask() }.toMutableList()
+        val task = if (completed) {
+            activeTasks.find { it.id == id }
         } else {
-            completedTasks[task.id] = updatedTask
+            completedTasks.find { it.id == id }
+        }!!
 
-        }
-
-        taskInteractor.saveTasks(activeTasks.map { it.toDto() }.toList(), completedTasks.map { it.toDto() }.toList())
-
-        _taskStateLiveData.postValue(TaskState.Saved)
-    }
-
-    fun updateCompleteness(task: Task, completed: Boolean) {
-        val taskDtos = taskInteractor.loadTasks()
-        val activeTasks = taskDtos[TaskType.ACTIVE]!!.map { it.toTask() }.toMutableList()
-        val completedTasks = taskDtos[TaskType.COMPLETED]!!.map { it.toTask() }.toMutableList()
-
-        val updatedTask = Task(
+        val updated = Task(
             name = task.name,
-            category = task.category,
+            category = task.category   ,
             description = task.description,
-            id = task.id,
+            id = id,
             completed = completed,
             timestamp = task.timestamp
         )
 
-        if (activeTasks.contains(task) == true) {
-            activeTasks.remove(task)
-            completedTasks.add(updatedTask)
+        if (completed) {
+            completedTasks.add(updated)
         } else {
-            completedTasks.remove(task)
-            activeTasks.add(task)
+            activeTasks.add(updated)
         }
 
-        taskInteractor.saveTasks(activeTasks.map { it.toDto() }.toList(), completedTasks.map { it.toDto() }.toList())
-
-        _taskStateLiveData.postValue(TaskState.Saved)
+        taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
+        taskInteractor.saveCompletedTasks(completedTasks.map { it.toDto() })
     }
 
-    fun removeTask(task: Task) {
-        val taskDtos = taskInteractor.loadTasks()
-        val activeTasks = taskDtos[TaskType.ACTIVE]?.toMutableList() ?: mutableListOf()
-        val completedTasks = taskDtos[TaskType.COMPLETED]?.toMutableList() ?: mutableListOf()
+    fun loadActiveTasks() {
+        val activeTasks = taskInteractor.loadActiveTasks().map { it.toTask() }
 
-        if (activeTasks.contains(task.toDto())) {
-            activeTasks.remove(task.toDto())
-        } else {
-            completedTasks.remove(task.toDto())
-        }
-
-        taskInteractor.saveTasks(activeTasks, completedTasks)
+        _taskStateLiveData.postValue(TaskState.Loaded.Active(activeTasks))
     }
 
-    fun loadTasks(taskType: TaskType) {
-        val taskDtos = taskInteractor.loadTasks()
+    fun loadCompletedTasks() {
+        val completedTasks = taskInteractor.loadCompletedTasks().map { it.toTask() }
 
-        when(taskType) {
-            TaskType.ACTIVE -> _taskStateLiveData.postValue(TaskState.Loaded(
-                taskDtos[TaskType.ACTIVE]?.map { it.toTask() } ?: mutableListOf()
-            ))
-            TaskType.COMPLETED -> _taskStateLiveData.postValue(TaskState.Loaded(
-                taskDtos[TaskType.COMPLETED]?.map { it.toTask() } ?: mutableListOf()
-            ))
-        }
+        _taskStateLiveData.postValue(TaskState.Loaded.Active(completedTasks))
     }
 }
