@@ -7,9 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.data.dto.TaskDto
 import orc.zdertis420.simplenotes.data.toTask
@@ -57,8 +60,12 @@ class EditTaskFragment : Fragment() {
                 fillFields()
             }
 
-            viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
-                render(state)
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.taskStateFlow.collect { state ->
+                        render(state)
+                    }
+                }
             }
 
             views.toolbar.setOnClickListener {
@@ -88,14 +95,8 @@ class EditTaskFragment : Fragment() {
     private fun render(state: TaskState) {
         when (state) {
             is TaskState.Saved -> finish()
-            is TaskState.Error.SavingError -> showSavingError()
-
             else -> {}
         }
-    }
-
-    private fun showSavingError() {
-        Toast.makeText(context, getString(R.string.saving_error), Toast.LENGTH_SHORT).show()
     }
 
     private fun finish() {

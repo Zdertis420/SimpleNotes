@@ -69,6 +69,8 @@
         android:layout_height="72dp"
         android:buttonTint="@color/primary_darker"
 
+        android:enabled="false"
+
         app:layout_constraintEnd_toStartOf="@+id/overflow_menu"
         app:layout_constraintTop_toTopOf="parent" />
 

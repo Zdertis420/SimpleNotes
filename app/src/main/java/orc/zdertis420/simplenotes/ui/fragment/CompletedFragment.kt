@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.launch
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.data.toDto
 import orc.zdertis420.simplenotes.databinding.FragmentTaskCompletedBinding
@@ -27,7 +31,12 @@ class CompletedFragment : Fragment() {
 
     private val viewModel by viewModel<TaskViewModel>()
 
-    private var tasks: List<Task> = mutableListOf()
+    private val taskAdapter = TaskAdapter(
+        tasks = emptyList(),
+        onOverflowMenu = { task, anchor -> showPopupMenu(task, anchor) },
+        onCheckbox = { task, isChecked -> onCheckbox(task, isChecked) },
+        onItem = { task -> onItem(task) }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,32 +51,20 @@ class CompletedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        views.tasks.layoutManager = LinearLayoutManager(context)
-        views.tasks.adapter = TaskAdapter(
-            tasks,
-            onOverflowMenu = { position, anchor ->
-                showPopupMenu(tasks[position], anchor)
-            },
-            onCheckbox = { position, isChecked ->
-                val task = tasks[position]
+        setupRecycler()
 
-                Log.d("TASK", "Task checked: ${task.name}")
-
-                viewModel.uncompleteTask(task)
-                viewModel.loadCompletedTasks()
-            },
-            onItem = { position ->
-                val task = tasks[position]
-                Log.d("TASK", "Task clicked: ${task.name}")
-
-                val args = bundleOf("task" to task.toDto())
-                findNavController().navigate(R.id.action_homeFragment_to_taskFragment, args)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.taskStateFlow.collect { state ->
+                    react(state)
+                }
             }
-        )
-
-        viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
-            react(state)
         }
+    }
+
+    private fun setupRecycler() {
+        views.tasks.layoutManager = LinearLayoutManager(context)
+        views.tasks.adapter = taskAdapter
     }
 
     override fun onResume() {
@@ -78,15 +75,21 @@ class CompletedFragment : Fragment() {
 
     private fun react(state: TaskState) {
         when (state) {
-            is TaskState.Loaded.Completed -> updateTasks(state.completedTasks)
+            is TaskState.Loaded.Completed -> taskAdapter.submitList(state.completedTasks)
             else -> {}
         }
     }
 
-    private fun updateTasks(tasks: List<Task>) {
-        this.tasks = tasks
+    private fun onCheckbox(task: Task, isChecked: Boolean) {
+        Log.d("TASK", "Task checked: ${task.name}")
 
-        (views.tasks.adapter as TaskAdapter).updateTasks(tasks)
+        viewModel.uncompleteTask(task)
+        viewModel.loadCompletedTasks()
+    }
+
+    private fun onItem(task: Task) {
+        val args = bundleOf("task" to task.toDto())
+        findNavController().navigate(R.id.action_homeFragment_to_taskFragment, args)
     }
 
     private fun showPopupMenu(task: Task, anchor: View) {
@@ -117,12 +120,6 @@ class CompletedFragment : Fragment() {
             }
         }
         popupMenu.show()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        viewModel.saveCompletedTasks(tasks)
     }
 
     override fun onDestroyView() {
