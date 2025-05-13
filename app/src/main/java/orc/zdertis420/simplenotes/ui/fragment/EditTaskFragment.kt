@@ -107,17 +107,17 @@ class EditTaskFragment : Fragment() {
     private fun saveTask() {
         Log.d("SAVE TASK", "fragment")
         if (task == null) {
-            viewModel.saveTask(
-                name = views.taskName.text.toString(),
-                category = views.taskCategory.text.toString(),
-                description = views.taskDescription.text.toString()
+            viewModel.addTask(
+                views.taskName.text.toString(),
+                views.taskCategory.text.toString(),
+                views.taskDescription.text.toString()
             )
         } else {
             viewModel.updateTask(
                 task!!,
-                name = views.taskName.text.toString(),
-                category = views.taskCategory.text.toString(),
-                description = views.taskDescription.text.toString()
+                views.taskName.text.toString(),
+                views.taskCategory.text.toString(),
+                views.taskDescription.text.toString(),
             )
         }
     }

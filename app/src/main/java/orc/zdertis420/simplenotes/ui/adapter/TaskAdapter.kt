@@ -15,8 +15,6 @@ class TaskAdapter(
     private val onItem: ((Int) -> Unit)?
 ) : RecyclerView.Adapter<TaskViewHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(
             LayoutInflater.from(parent.context)
