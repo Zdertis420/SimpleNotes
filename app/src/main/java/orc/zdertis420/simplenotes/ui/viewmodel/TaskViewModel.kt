@@ -20,18 +20,11 @@ class TaskViewModel(
     private val _taskStateLiveData = MutableLiveData<TaskState>(TaskState.Initial)
     val taskStateLiveData: LiveData<TaskState> get() = _taskStateLiveData
 
-    fun saveActiveTasks(activeTasks: List<Task>) = viewModelScope.launch {
-        taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
-    }
-
-    fun saveCompletedTasks(completedTask: List<Task>) = viewModelScope.launch {
-        taskInteractor.saveCompletedTasks(completedTask.map { it.toDto() })
-    }
-
     fun addTask(name: String, category: String, description: String) = viewModelScope.launch {
         val activeTasks = taskInteractor.loadActiveTasks().map { it.toTask() }.toMutableList()
+        val completedTasks = taskInteractor.loadCompletedTasks().map { it.toTask() }.toMutableList()
 
-        val lastTask = activeTasks.lastOrNull()
+        val lastTask = (activeTasks + completedTasks).maxByOrNull { it.id }
 
         val newTask = Task(
             name = name,

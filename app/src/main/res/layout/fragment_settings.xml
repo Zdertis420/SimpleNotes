@@ -50,7 +50,8 @@
             android:inputType="none"
             android:textColor="@color/primary"
 
-            android:background="@color/background_color" />
+            android:background="@color/background_color"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -32,23 +32,6 @@
         tools:ignore="ContentDescription" />
     <!--    ya know wat?? fuck you and ur warnings    -->
 
-    <EditText
-        android:id="@+id/task_search"
-        android:layout_width="330dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/medium_padding"
-        android:background="@drawable/input_line"
-        android:backgroundTint="@color/gray"
-        android:hint="@string/search_tasks"
-        android:inputType="text"
-        android:textColor="@color/unchangeable_standard_text_color"
-        android:paddingStart="@dimen/medium_padding"
-        android:paddingEnd="@dimen/medium_padding"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_toolbar"
-        tools:ignore="Autofill"/>
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
@@ -56,7 +39,7 @@
         android:background="@color/background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_search"
+        app:layout_constraintTop_toBottomOf="@+id/home_toolbar"
         app:tabIndicatorColor="@color/primary"
         app:tabTextColor="@color/primary_darker" />
 

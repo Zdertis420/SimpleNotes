@@ -2,12 +2,10 @@ package orc.zdertis420.simplenotes.data.repository
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import orc.zdertis420.simplenotes.domain.repository.TaskRepository
 import androidx.core.content.edit
 import kotlinx.serialization.json.Json
 import orc.zdertis420.simplenotes.data.dto.TaskDto
-import orc.zdertis420.simplenotes.domain.entity.TaskType
 
 class TaskRepositoryImplementation(context: Context) : TaskRepository {
 

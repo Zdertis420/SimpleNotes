@@ -1,17 +1,15 @@
 package orc.zdertis420.simplenotes.ui.fragment
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.data.dto.TaskDto
@@ -31,12 +29,8 @@ class EditTaskFragment : Fragment() {
 
     private var task: Task? = null
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val finishEditing = Runnable {
-        views.savedIndicator.visibility = View.GONE
-        views.saveTask.isClickable = true
-        findNavController().navigateUp()
-    }
+    private var finishJob: Job? = null
+    private val DEBOUNCE_DELAY = 750L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,7 +92,14 @@ class EditTaskFragment : Fragment() {
     private fun finish() {
         views.saveTask.isClickable = false
         views.savedIndicator.visibility = View.VISIBLE
-        handler.postDelayed(finishEditing, 750)
+
+        finishJob?.cancel()
+        finishJob = lifecycleScope.launch {
+            delay(DEBOUNCE_DELAY)
+            views.savedIndicator.visibility = View.GONE
+            views.saveTask.isClickable = true
+            findNavController().navigateUp()
+        }
     }
 
     private fun saveTask() {
@@ -121,7 +122,7 @@ class EditTaskFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        handler.removeCallbacks(finishEditing)
+        finishJob?.cancel()
         _views = null
     }
 }

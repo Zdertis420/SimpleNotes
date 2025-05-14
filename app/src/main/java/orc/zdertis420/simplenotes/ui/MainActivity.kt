@@ -5,16 +5,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.fragment.NavHostFragment
-import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private var _views: ActivityMainBinding? = null
     private val views get() = _views!!
-
-    val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +22,6 @@ class MainActivity : AppCompatActivity() {
             view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
             WindowInsetsCompat.CONSUMED
         }
-
-        val navHostFragment = fragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
-        val navController = navHostFragment.navController
     }
 
     override fun onDestroy() {

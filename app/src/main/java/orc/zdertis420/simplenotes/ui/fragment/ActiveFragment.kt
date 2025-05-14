@@ -33,7 +33,6 @@ class ActiveFragment : Fragment(), TaskListener {
 
     private var enableListenersJob: Job? = null
     private val DEBOUNCE_DELAY = 250L
-    private var listenersTemporarilyDisabled = false
 
     private lateinit var taskAdapter: TaskAdapter
 
@@ -50,7 +49,7 @@ class ActiveFragment : Fragment(), TaskListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskAdapter = TaskAdapter(this) { !listenersTemporarilyDisabled }
+        taskAdapter = TaskAdapter(this)
         setupRecycler()
 
         viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
@@ -61,7 +60,7 @@ class ActiveFragment : Fragment(), TaskListener {
     override fun onResume() {
         super.onResume()
 
-        listenersTemporarilyDisabled = false
+        taskAdapter.setListenersEnabled(true)
         viewModel.loadActiveTasks()
     }
 
@@ -76,12 +75,12 @@ class ActiveFragment : Fragment(), TaskListener {
             is TaskState.Loaded.Active -> {
                 Log.d("TASK", "Loaded tasks: ${state.activeTasks}")
 
-                listenersTemporarilyDisabled = true
-                taskAdapter.submitList(state.activeTasks) {
+                taskAdapter.setListenersEnabled(false)
+                taskAdapter.submitList(state.activeTasks.sortedBy { it.id }) {
                     enableListenersJob?.cancel()
                     enableListenersJob = lifecycleScope.launch {
                         delay(DEBOUNCE_DELAY)
-                        listenersTemporarilyDisabled = false
+                        taskAdapter.setListenersEnabled(true)
                     }
                 }
             }

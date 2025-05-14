@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Job
@@ -36,7 +34,6 @@ class CompletedFragment : Fragment(), TaskListener {
 
     private var enableListenersJob: Job? = null
     private val DEBOUNCE_DELAY = 250L
-    private var listenersTemporarilyDisabled = false
 
     private lateinit var taskAdapter: TaskAdapter
 
@@ -53,7 +50,7 @@ class CompletedFragment : Fragment(), TaskListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskAdapter = TaskAdapter(this) { !listenersTemporarilyDisabled }
+        taskAdapter = TaskAdapter(this)
         setupRecycler()
 
         viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
@@ -69,7 +66,7 @@ class CompletedFragment : Fragment(), TaskListener {
     override fun onResume() {
         super.onResume()
 
-        listenersTemporarilyDisabled = false
+        taskAdapter.setListenersEnabled(true)
         viewModel.loadCompletedTasks()
     }
 
@@ -78,12 +75,12 @@ class CompletedFragment : Fragment(), TaskListener {
             is TaskState.Loaded.Completed -> {
                 Log.d("TASK", "Loaded tasks: ${state.completedTasks}")
 
-                listenersTemporarilyDisabled = true
-                taskAdapter.submitList(state.completedTasks) {
+                taskAdapter.setListenersEnabled(false)
+                taskAdapter.submitList(state.completedTasks.sortedBy { it.id }) {
                     enableListenersJob?.cancel()
                     enableListenersJob = lifecycleScope.launch {
                         delay(DEBOUNCE_DELAY)
-                        listenersTemporarilyDisabled = false
+                        taskAdapter.setListenersEnabled(true)
                     }
                 }
             }
