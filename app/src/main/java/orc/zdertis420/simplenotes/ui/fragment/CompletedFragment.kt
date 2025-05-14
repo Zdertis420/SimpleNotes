@@ -32,7 +32,6 @@ class CompletedFragment : Fragment() {
     private val viewModel by viewModel<TaskViewModel>()
 
     private val taskAdapter = TaskAdapter(
-        tasks = emptyList(),
         onOverflowMenu = { task, anchor -> showPopupMenu(task, anchor) },
         onCheckbox = { task, isChecked -> onCheckbox(task, isChecked) },
         onItem = { task -> onItem(task) }
@@ -53,12 +52,8 @@ class CompletedFragment : Fragment() {
 
         setupRecycler()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.taskStateFlow.collect { state ->
-                    react(state)
-                }
-            }
+        viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
+            react(state)
         }
     }
 

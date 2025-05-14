@@ -7,9 +7,7 @@ import orc.zdertis420.simplenotes.domain.entity.Task
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TaskViewHolder(
-    itemView: View,
-) : RecyclerView.ViewHolder(itemView) {
+class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val views = TaskItemBinding.bind(itemView)
 

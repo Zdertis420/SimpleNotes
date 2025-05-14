@@ -1,10 +1,10 @@
 package orc.zdertis420.simplenotes.ui.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import orc.zdertis420.simplenotes.data.toDto
 import orc.zdertis420.simplenotes.data.toTask
@@ -17,8 +17,8 @@ class TaskViewModel(
 ) : ViewModel() {
 
 
-    private val _taskStateFlow = MutableStateFlow<TaskState>(TaskState.Initial)
-    val taskStateFlow: StateFlow<TaskState> get() = _taskStateFlow
+    private val _taskStateLiveData = MutableLiveData<TaskState>(TaskState.Initial)
+    val taskStateLiveData: LiveData<TaskState> get() = _taskStateLiveData
 
     fun saveActiveTasks(activeTasks: List<Task>) = viewModelScope.launch {
         taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
@@ -46,7 +46,7 @@ class TaskViewModel(
 
         taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
 
-        _taskStateFlow.value = TaskState.Saved
+        _taskStateLiveData.value = TaskState.Saved
     }
 
     fun updateTask(task: Task, name: String, category: String, description: String) = viewModelScope.launch {
@@ -75,7 +75,7 @@ class TaskViewModel(
         taskInteractor.saveActiveTasks(activeTasks.map { it.toDto() })
         taskInteractor.saveCompletedTasks(completedTasks.map { it.toDto() })
 
-        _taskStateFlow.value = TaskState.Saved
+        _taskStateLiveData.value = TaskState.Saved
     }
 
     fun completeTask(task: Task) = viewModelScope.launch {
@@ -125,7 +125,7 @@ class TaskViewModel(
 
         Log.d("TASK", "Loading active tasks: $activeTasks")
 
-        _taskStateFlow.value = TaskState.Loaded.Active(activeTasks)
+        _taskStateLiveData.postValue(TaskState.Loaded.Active(activeTasks))
     }
 
     fun loadCompletedTasks() = viewModelScope.launch {
@@ -133,7 +133,7 @@ class TaskViewModel(
 
         Log.d("TASK", "Loading completed tasks: $completedTasks")
 
-        _taskStateFlow.value = TaskState.Loaded.Completed(completedTasks)
+        _taskStateLiveData.postValue(TaskState.Loaded.Completed(completedTasks))
     }
 
     fun removeTask(task: Task) = viewModelScope.launch {

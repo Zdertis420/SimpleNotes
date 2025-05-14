@@ -60,12 +60,8 @@ class EditTaskFragment : Fragment() {
                 fillFields()
             }
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.taskStateFlow.collect { state ->
-                        render(state)
-                    }
-                }
+            viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
+                render(state)
             }
 
             views.toolbar.setOnClickListener {

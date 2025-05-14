@@ -31,7 +31,6 @@ class ActiveFragment : Fragment() {
     private val viewModel by viewModel<TaskViewModel>()
 
     private val taskAdapter = TaskAdapter(
-        tasks = emptyList(),
         onOverflowMenu = { task, anchor -> showPopupMenu(task, anchor) },
         onCheckbox = { task, isChecked -> onCheckbox(task, isChecked) },
         onItem = { task -> onItem(task) }
@@ -52,21 +51,8 @@ class ActiveFragment : Fragment() {
 
         setupRecycler()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            Log.d("Coroutine", "Started")
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                Log.d("Cycle", "Started collecting StateFlow")
-                viewModel.taskStateFlow.collect { state ->
-                    when (state) {
-                        is TaskState.Loaded.Active -> {
-                            Log.d("TASK", "Loaded tasks: ${state.activeTasks}")
-
-                            taskAdapter.submitList(state.activeTasks)
-                        }
-                        else -> {}
-                    }
-                }
-            }
+        viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
+            react(state)
         }
     }
 
