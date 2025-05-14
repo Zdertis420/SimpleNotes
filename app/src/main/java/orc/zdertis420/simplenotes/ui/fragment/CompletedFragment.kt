@@ -13,29 +13,32 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import orc.zdertis420.simplenotes.R
 import orc.zdertis420.simplenotes.data.toDto
 import orc.zdertis420.simplenotes.databinding.FragmentTaskCompletedBinding
 import orc.zdertis420.simplenotes.domain.entity.Task
 import orc.zdertis420.simplenotes.ui.adapter.TaskAdapter
+import orc.zdertis420.simplenotes.ui.adapter.TaskListener
 import orc.zdertis420.simplenotes.ui.state.TaskState
 import orc.zdertis420.simplenotes.ui.viewmodel.TaskViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
-class CompletedFragment : Fragment() {
+class CompletedFragment : Fragment(), TaskListener {
 
     private var _views: FragmentTaskCompletedBinding? = null
     private val views get() = _views!!
 
     private val viewModel by viewModel<TaskViewModel>()
 
-    private val taskAdapter = TaskAdapter(
-        onOverflowMenu = { task, anchor -> showPopupMenu(task, anchor) },
-        onCheckbox = { task, isChecked -> onCheckbox(task, isChecked) },
-        onItem = { task -> onItem(task) }
-    )
+    private var enableListenersJob: Job? = null
+    private val DEBOUNCE_DELAY = 250L
+    private var listenersTemporarilyDisabled = false
+
+    private lateinit var taskAdapter: TaskAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +53,7 @@ class CompletedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        taskAdapter = TaskAdapter(this) { !listenersTemporarilyDisabled }
         setupRecycler()
 
         viewModel.taskStateLiveData.observe(viewLifecycleOwner) { state ->
@@ -65,29 +69,41 @@ class CompletedFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        listenersTemporarilyDisabled = false
         viewModel.loadCompletedTasks()
     }
 
     private fun react(state: TaskState) {
         when (state) {
-            is TaskState.Loaded.Completed -> taskAdapter.submitList(state.completedTasks)
+            is TaskState.Loaded.Completed -> {
+                Log.d("TASK", "Loaded tasks: ${state.completedTasks}")
+
+                listenersTemporarilyDisabled = true
+                taskAdapter.submitList(state.completedTasks) {
+                    enableListenersJob?.cancel()
+                    enableListenersJob = lifecycleScope.launch {
+                        delay(DEBOUNCE_DELAY)
+                        listenersTemporarilyDisabled = false
+                    }
+                }
+            }
             else -> {}
         }
     }
 
-    private fun onCheckbox(task: Task, isChecked: Boolean) {
+    override fun onCheckbox(task: Task, isChecked: Boolean) {
         Log.d("TASK", "Task checked: ${task.name}")
 
         viewModel.uncompleteTask(task)
         viewModel.loadCompletedTasks()
     }
 
-    private fun onItem(task: Task) {
+    override fun onTask(task: Task) {
         val args = bundleOf("task" to task.toDto())
         findNavController().navigate(R.id.action_homeFragment_to_taskFragment, args)
     }
 
-    private fun showPopupMenu(task: Task, anchor: View) {
+    override fun onOverflowMenu(task: Task, anchor: View) {
         val popupMenu = PopupMenu(requireContext(), anchor)
         popupMenu.menuInflater.inflate(R.menu.task_action_popup, popupMenu.menu)
 
